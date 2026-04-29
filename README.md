@@ -1,5 +1,10 @@
 # envguard
 
+[![npm version](https://img.shields.io/npm/v/@v0idd0/envguard.svg?color=A0573A)](https://www.npmjs.com/package/@v0idd0/envguard)
+[![npm downloads](https://img.shields.io/npm/dw/@v0idd0/envguard.svg?color=1F1A14)](https://www.npmjs.com/package/@v0idd0/envguard)
+[![License: MIT](https://img.shields.io/badge/license-MIT-A0573A.svg)](LICENSE)
+[![Node ≥14](https://img.shields.io/badge/node-%E2%89%A514-1F1A14)](package.json)
+
 **Validate `.env` files against a typed schema.** Catch `undefined`, `PORT=not-a-number`, missing secrets, and "`.env` leaked into git" — before your server tries to boot.
 
 Free forever gift from [vøiddo](https://voiddo.com).
