@@ -1,6 +1,6 @@
 {
   "name": "@v0idd0/envguard",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "envguard — validate .env against a schema. 21 types (url, uuid, semver, duration, json, ip, enum, regex, secret, ...), min/max constraints, secret-leak scanner, gitignore check. Pre-commit / CI friendly. Free forever from vøiddo.",
   "main": "src/validator.js",
   "bin": {
@@ -15,6 +15,10 @@
     "validate",
     "validator",
     "schema",
+    "env-schema",
+    "dotenv-validator",
+    "secret-scanner",
+    "config-validation",
     "typed",
     "secrets",
     "leak",
@@ -25,7 +29,7 @@
   ],
   "author": "vøiddo <support@voiddo.com> (https://voiddo.com)",
   "license": "MIT",
-  "homepage": "https://voiddo.com/tools/envguard/",
+  "homepage": "https://tools.voiddo.com/envguard/?ref=envguard-npm",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/voidd0/envguard.git"

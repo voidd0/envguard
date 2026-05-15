@@ -5,6 +5,10 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-A0573A.svg)](LICENSE)
 [![Node ≥14](https://img.shields.io/badge/node-%E2%89%A514-1F1A14)](package.json)
 
+**[Homepage](https://tools.voiddo.com/envguard/?ref=envguard-readme)** · **[GitHub](https://github.com/voidd0/envguard)** · **[npm](https://www.npmjs.com/package/@v0idd0/envguard)** · **[All tools](https://tools.voiddo.com/?ref=envguard-catalog-readme)** · **[Contact](mailto:support@voiddo.com)**
+
+---
+
 **Validate `.env` files against a typed schema.** Catch `undefined`, `PORT=not-a-number`, missing secrets, and "`.env` leaked into git" — before your server tries to boot.
 
 Free forever gift from [vøiddo](https://voiddo.com).
@@ -195,15 +199,15 @@ isGitIgnored('.env');          // true / false / null
 
 vøiddo builds sharp, free-forever CLIs for devs who are tired of paywalls:
 
-- [`@v0idd0/jsonyo`](https://voiddo.com/tools/jsonyo/) — JSON that yells at you when it's broken
-- [`@v0idd0/tokcount`](https://voiddo.com/tools/tokcount/) — token counter for 60+ LLMs
-- [`@v0idd0/ctxstuff`](https://voiddo.com/tools/ctxstuff/) — stuff a repo into an LLM context window
-- [`@v0idd0/promptdiff`](https://voiddo.com/tools/promptdiff/) — diff two prompts with token impact
-- [`@v0idd0/httpwut`](https://voiddo.com/tools/httpwut/) — HTTP debugger with DNS/TCP/TLS phase timing
-- [`@v0idd0/gitstats`](https://voiddo.com/tools/gitstats/) — local git analytics (hotspots, bus-factor)
-- [`@v0idd0/licenseme`](https://voiddo.com/tools/licenseme/) — LICENSE generator + detector (18 licenses)
+- [`@v0idd0/jsonyo`](https://tools.voiddo.com/jsonyo/?ref=envguard-related-jsonyo-readme) — JSON that yells at you when it's broken
+- [`@v0idd0/tokcount`](https://tools.voiddo.com/tokcount/?ref=envguard-related-tokcount-readme) — token counter for 60+ LLMs
+- [`@v0idd0/ctxstuff`](https://tools.voiddo.com/ctxstuff/?ref=envguard-related-ctxstuff-readme) — stuff a repo into an LLM context window
+- [`@v0idd0/promptdiff`](https://tools.voiddo.com/promptdiff/?ref=envguard-related-promptdiff-readme) — diff two prompts with token impact
+- [`@v0idd0/httpwut`](https://tools.voiddo.com/httpwut/?ref=envguard-related-httpwut-readme) — HTTP debugger with DNS/TCP/TLS phase timing
+- [`@v0idd0/gitstats`](https://tools.voiddo.com/gitstats/?ref=envguard-related-gitstats-readme) — local git analytics (hotspots, bus-factor)
+- [`@v0idd0/licenseme`](https://tools.voiddo.com/licenseme/?ref=envguard-related-licenseme-readme) — LICENSE generator + detector (18 licenses)
 
-Full catalog: [voiddo.com/tools](https://voiddo.com/tools/).
+Full catalog: [tools.voiddo.com](https://tools.voiddo.com/?ref=envguard-catalog-readme).
 
 ## License
 
@@ -211,10 +215,10 @@ MIT © [vøiddo](https://voiddo.com) — free forever, no asterisks.
 
 ## Links
 
-- Docs: https://voiddo.com/tools/envguard/
+- Docs: https://tools.voiddo.com/envguard/?ref=envguard-docs-readme
 - Source: https://github.com/voidd0/envguard
 - npm: https://npmjs.com/package/@v0idd0/envguard
-- Studio: https://voiddo.com
+- Studio: https://voiddo.com/?ref=envguard-studio-readme
 - Issues: https://github.com/voidd0/envguard/issues
 - Support: support@voiddo.com
 
