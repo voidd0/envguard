@@ -9,9 +9,9 @@
 
 ---
 
-**Validate `.env` files against a typed schema.** Catch `undefined`, `PORT=not-a-number`, missing secrets, and "`.env` leaked into git" — before your server tries to boot.
+**Validate `.env` files against a typed schema.** Catch `undefined`, `PORT=not-a-number`, missing secrets, and "`.env` leaked into git", before your server tries to boot.
 
-Free forever gift from [vøiddo](https://voiddo.com).
+gift from [vøiddo](https://voiddo.com).
 
 ```
 $ envguard check
@@ -28,7 +28,7 @@ warnings:
 
 ## Why envguard
 
-`dotenv` loads your `.env` into `process.env` without complaining about missing keys or bad types. You find out at runtime, usually at 2 AM. envguard fails at boot time — or better yet, at `pre-commit` time — so nothing that can't parse `PORT=3000` ever reaches production.
+`dotenv` loads your `.env` into `process.env` without complaining about missing keys or bad types. You find out at runtime, usually at 2 AM. envguard fails at boot time, or better yet, at `pre-commit` time, so nothing that can't parse `PORT=3000` ever reaches production.
 
 - **21 typed validators** (url, uuid, semver, duration, json, ip, enum, regex, secret, ...)
 - **Constraints**: `port:min=1024,max=65535`, `string:min=8,max=64`
@@ -66,7 +66,7 @@ envguard diff .env .env.prod
 # List variables with secrets masked
 envguard list --mask-secrets
 
-# CI mode — JSON envelope, exit code 0/1
+# CI mode: JSON envelope, exit code 0/1
 envguard check --json | jq .valid
 ```
 
@@ -75,14 +75,14 @@ envguard check --json | jq .valid
 | Command | Aliases | Description |
 |---------|---------|-------------|
 | `check` | `c` | Validate `.env` against `.env.schema` (default) |
-| `diff`  | `d` | Compare two `.env` files — what's only in one, what differs |
+| `diff`  | `d` | Compare two `.env` files: what's only in one, what differs |
 | `init`  | `i` | Auto-generate schema from an existing `.env` |
 | `list`  | `l` | List variables in `.env` |
 | `scan`  | `s` | Secret-leak scan: gitignore check + secret shape detection |
 
 ## Schema format
 
-One line per var: `KEY=type[:constraints]` — or `KEY?` for optional, `KEY=default` for a plain default.
+One line per var: `KEY=type[:constraints]`, or `KEY?` for optional, `KEY=default` for a plain default.
 
 ```env
 # Required, typed
@@ -117,10 +117,10 @@ MAX_RETRIES=3
 | `boolean` | `true`/`false`/`1`/`0`/`yes`/`no`/`on`/`off` |
 | `url` | anything `new URL()` accepts |
 | `email` | `user@host.tld` |
-| `port` | 1–65535 (supports `min`/`max`) |
+| `port` | 1-65535 (supports `min`/`max`) |
 | `ip` | IPv4 or IPv6 |
 | `ipv4` / `ipv6` | specific address family |
-| `uuid` | RFC 4122 UUID v1–v5 |
+| `uuid` | RFC 4122 UUID v1: v5 |
 | `semver` | `1.2.3`, `2.0.0-beta.1`, `1.0.0+build` |
 | `duration` | `15m`, `2h`, `500ms`, `1d`, `1w` |
 | `json` | parseable JSON |
@@ -195,23 +195,9 @@ detectSecrets(envVars);        // [{ key, reason, length }, ...]
 isGitIgnored('.env');          // true / false / null
 ```
 
-## From the same studio
-
-vøiddo builds sharp, free-forever CLIs for devs who are tired of paywalls:
-
-- [`@v0idd0/jsonyo`](https://tools.voiddo.com/jsonyo/?ref=envguard-related-jsonyo-readme) — JSON that yells at you when it's broken
-- [`@v0idd0/tokcount`](https://tools.voiddo.com/tokcount/?ref=envguard-related-tokcount-readme) — token counter for 60+ LLMs
-- [`@v0idd0/ctxstuff`](https://tools.voiddo.com/ctxstuff/?ref=envguard-related-ctxstuff-readme) — stuff a repo into an LLM context window
-- [`@v0idd0/promptdiff`](https://tools.voiddo.com/promptdiff/?ref=envguard-related-promptdiff-readme) — diff two prompts with token impact
-- [`@v0idd0/httpwut`](https://tools.voiddo.com/httpwut/?ref=envguard-related-httpwut-readme) — HTTP debugger with DNS/TCP/TLS phase timing
-- [`@v0idd0/gitstats`](https://tools.voiddo.com/gitstats/?ref=envguard-related-gitstats-readme) — local git analytics (hotspots, bus-factor)
-- [`@v0idd0/licenseme`](https://tools.voiddo.com/licenseme/?ref=envguard-related-licenseme-readme) — LICENSE generator + detector (18 licenses)
-
-Full catalog: [tools.voiddo.com](https://tools.voiddo.com/?ref=envguard-catalog-readme).
-
 ## License
 
-MIT © [vøiddo](https://voiddo.com) — free forever, no asterisks.
+MIT © [vøiddo](https://voiddo.com), no asterisks.
 
 ## Links
 
@@ -224,4 +210,4 @@ MIT © [vøiddo](https://voiddo.com) — free forever, no asterisks.
 
 ---
 
-Built by [vøiddo](https://voiddo.com/) — a small studio shipping AI-flavoured products, free dev tools, Chrome extensions and weird browser games.
+Maintained by v0idd0.

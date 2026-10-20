@@ -1,7 +1,7 @@
 {
   "name": "@v0idd0/envguard",
-  "version": "2.0.3",
-  "description": "envguard — validate .env against a schema. 21 types (url, uuid, semver, duration, json, ip, enum, regex, secret, ...), min/max constraints, secret-leak scanner, gitignore check. Pre-commit / CI friendly. Free forever from vøiddo.",
+  "version": "2.0.4",
+  "description": "Validate a .env file against a schema with 21 types and min and max constraints, scan for leaked secrets and check .gitignore. Works in pre-commit hooks and CI.",
   "main": "src/validator.js",
   "bin": {
     "envguard": "./bin/envguard.js"
@@ -13,23 +13,19 @@
     "env",
     "dotenv",
     "validate",
-    "validator",
     "schema",
     "env-schema",
-    "dotenv-validator",
     "secret-scanner",
     "config-validation",
-    "typed",
     "secrets",
-    "leak",
     "pre-commit",
     "ci",
     "cli",
-    "voiddo"
+    "typed"
   ],
   "author": "vøiddo <support@voiddo.com> (https://voiddo.com)",
   "license": "MIT",
-  "homepage": "https://tools.voiddo.com/envguard/?ref=envguard-npm",
+  "homepage": "https://tools.voiddo.com/envguard/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/voidd0/envguard.git"
@@ -45,15 +41,10 @@
     "node": ">=14"
   },
   "files": [
-    "bin/",
-    "src/",
-    "LICENSE",
-    "README.md"
-  ],
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
   ],
   "funding": {
     "type": "individual",
