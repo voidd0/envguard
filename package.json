@@ -4,7 +4,7 @@
   "description": "Validate a .env file against a typed schema with 21 types, scan for leaked secrets and check that .env is git-ignored. Fits pre-commit hooks and CI.",
   "main": "src/validator.js",
   "bin": {
-    "envguard": "./bin/envguard.js"
+    "envguard": "bin/envguard.js"
   },
   "scripts": {
     "test": "node test.js"
