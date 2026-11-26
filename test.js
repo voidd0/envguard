@@ -1,5 +1,3 @@
-// envguard — tests. free forever from vøiddo. https://voiddo.com/tools/envguard/
-
 const fs = require('fs');
 const {
   parseEnvFile,

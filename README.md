@@ -1,40 +1,10 @@
 # envguard
 
-[![npm version](https://img.shields.io/npm/v/@v0idd0/envguard.svg?color=A0573A)](https://www.npmjs.com/package/@v0idd0/envguard)
-[![npm downloads](https://img.shields.io/npm/dw/@v0idd0/envguard.svg?color=1F1A14)](https://www.npmjs.com/package/@v0idd0/envguard)
-[![License: MIT](https://img.shields.io/badge/license-MIT-A0573A.svg)](LICENSE)
-[![Node ≥14](https://img.shields.io/badge/node-%E2%89%A514-1F1A14)](package.json)
+Check a .env file against a typed schema, so a missing or malformed variable fails in CI or a pre-commit hook instead of in production. It can also scan a .env for likely secrets and check that it is git-ignored.
 
-**[Homepage](https://tools.voiddo.com/envguard/?ref=envguard-readme)** · **[GitHub](https://github.com/voidd0/envguard)** · **[npm](https://www.npmjs.com/package/@v0idd0/envguard)** · **[All tools](https://tools.voiddo.com/?ref=envguard-catalog-readme)** · **[Contact](mailto:support@voiddo.com)**
-
----
-
-**Validate `.env` files against a typed schema.** Catch `undefined`, `PORT=not-a-number`, missing secrets, and "`.env` leaked into git", before your server tries to boot.
-
-gift from [vøiddo](https://voiddo.com).
-
-```
-$ envguard check
-checking .env against .env.schema
-
-errors:
-  ✗ PORT: invalid port: "hello"
-  ✗ DATABASE_URL: required but missing
-warnings:
-  ⚠ LOG_LEVEL: missing, using default: info
-
-✗ failed. 2 error(s).
-```
-
-## Why envguard
-
-`dotenv` loads your `.env` into `process.env` without complaining about missing keys or bad types. You find out at runtime, usually at 2 AM. envguard fails at boot time, or better yet, at `pre-commit` time, so nothing that can't parse `PORT=3000` ever reaches production.
-
-- **21 typed validators** (url, uuid, semver, duration, json, ip, enum, regex, secret, ...)
-- **Constraints**: `port:min=1024,max=65535`, `string:min=8,max=64`
-- **Auto-schema** from existing `.env` (`envguard init`)
-- **Secret-leak scanner**: is `.env` in `.gitignore`? do keys/values smell like secrets?
-- **CI-ready**: `--json` envelope, proper exit codes, `--fail-if-leaked`
+[![npm](https://img.shields.io/npm/v/@v0idd0/envguard?color=00f6d0&labelColor=050914)](https://www.npmjs.com/package/@v0idd0/envguard)
+[![test](https://github.com/voidd0/envguard/actions/workflows/test.yml/badge.svg)](https://github.com/voidd0/envguard/actions/workflows/test.yml)
+[![license](https://img.shields.io/badge/license-MIT-00f6d0?labelColor=050914)](LICENSE)
 
 ## Install
 
@@ -42,172 +12,139 @@ warnings:
 npm install -g @v0idd0/envguard
 ```
 
-Or run ad-hoc with `npx`:
+Or run it once without installing: `npx @v0idd0/envguard --help`. Needs Node.js 18 or newer. No dependencies.
 
-```bash
-npx -y @v0idd0/envguard check
-```
+## Example
 
-## Quickstart
+Given this `.env.schema`:
 
-```bash
-# Validate .env against .env.schema
-envguard
-
-# First-time setup: auto-generate a schema from an existing .env
-envguard init
-
-# Secret-leak scan (pre-commit gate)
-envguard scan --fail-if-leaked
-
-# Diff two env files (e.g., dev vs prod)
-envguard diff .env .env.prod
-
-# List variables with secrets masked
-envguard list --mask-secrets
-
-# CI mode: JSON envelope, exit code 0/1
-envguard check --json | jq .valid
-```
-
-## Commands
-
-| Command | Aliases | Description |
-|---------|---------|-------------|
-| `check` | `c` | Validate `.env` against `.env.schema` (default) |
-| `diff`  | `d` | Compare two `.env` files: what's only in one, what differs |
-| `init`  | `i` | Auto-generate schema from an existing `.env` |
-| `list`  | `l` | List variables in `.env` |
-| `scan`  | `s` | Secret-leak scan: gitignore check + secret shape detection |
-
-## Schema format
-
-One line per var: `KEY=type[:constraints]`, or `KEY?` for optional, `KEY=default` for a plain default.
-
-```env
-# Required, typed
+```text
 DATABASE_URL=url
 PORT=port:min=1024,max=65535
-NODE_ENV=enum(development|staging|production)
+DEBUG=boolean
 LOG_LEVEL=enum(debug|info|warn|error):info
-SESSION_TIMEOUT=duration               # 15m, 1h, 2d, 500ms
-USER_ID=uuid
-APP_VERSION=semver
-BIND_IP=ip
-API_KEY=secret:min=32
-ALLOW_LIST=json
-TRACE_ID=regex:/^[a-z0-9]{16}$/
-DATA_DIR=dir                           # directory must exist
-CONFIG_FILE=file                       # file must exist
-
-# Optional (with ?)
-TELEMETRY_URL?=url
-
-# Plain default (no type)
-MAX_RETRIES=3
+API_KEY=secret:min=16
 ```
 
-## Types (21)
+and this `.env`:
 
-| Type | What it accepts |
-|------|-----------------|
-| `string` | any string; supports `min`/`max` length |
-| `number` | any numeric; supports `min`/`max` |
-| `integer` | whole numbers; supports `min`/`max` |
-| `boolean` | `true`/`false`/`1`/`0`/`yes`/`no`/`on`/`off` |
-| `url` | anything `new URL()` accepts |
-| `email` | `user@host.tld` |
-| `port` | 1-65535 (supports `min`/`max`) |
-| `ip` | IPv4 or IPv6 |
-| `ipv4` / `ipv6` | specific address family |
-| `uuid` | RFC 4122 UUID v1: v5 |
-| `semver` | `1.2.3`, `2.0.0-beta.1`, `1.0.0+build` |
-| `duration` | `15m`, `2h`, `500ms`, `1d`, `1w` |
-| `json` | parseable JSON |
-| `path` | any non-empty path string |
-| `dir` | path that resolves to a directory on disk |
-| `file` | path that resolves to a file on disk |
-| `regex` | `regex:/pattern/flags` |
-| `enum` | `enum(a\|b\|c)` |
-| `hex` | `[0-9a-fA-F]+` |
-| `secret` | any string ≥16 chars (overridable with `min=`) |
-
-## Options
-
-| Flag | Description |
-|------|-------------|
-| `-e, --env <path>` | Path to `.env` file (default `.env`) |
-| `-s, --schema <path>` | Path to schema file (default `.env.schema`) |
-| `-o, --output <path>` | Output file (for `init`) |
-| `--strict` | Fail on extra variables not in the schema |
-| `--quiet` | Only print errors |
-| `--json` | Emit a JSON envelope (for CI) |
-| `--mask-secrets` | Redact likely-secret values in output |
-| `--fail-if-leaked` | `scan` exits with code `2` if `.env` is not git-ignored |
-| `-h, --help` | Show help |
-| `--version` | Show version |
-
-## Secret-leak scanner
-
-`envguard scan` walks your `.env` and reports:
-1. Whether `.env` is listed in `.gitignore` (green ✓ / red ✗).
-2. Every variable whose *name* looks like a secret (`SECRET`, `TOKEN`, `KEY`, `PASS`, `PRIVATE`, `CRED`, `AUTH`, `APIKEY`) or whose *value* looks like one (24+ high-entropy chars).
-
-Wire it into `.git/hooks/pre-commit` or CI:
-
-```bash
-envguard scan --fail-if-leaked || exit 1
+```text
+DATABASE_URL=not-a-url
+PORT=80
+DEBUG=maybe
+LOG_LEVEL=info
 ```
 
-## Exit codes
+the check fails and the exit code is 1. Output from a real run on 2026-11-26:
 
-| Code | Meaning |
-|------|---------|
-| `0`  | Validation passed / scan clean |
-| `1`  | Validation failed, file missing, or unknown command |
-| `2`  | `scan --fail-if-leaked` and `.env` is not in `.gitignore` |
+```console
+$ envguard check
+checking .env against .env.schema
 
-## Programmatic use
+errors:
+  ✗ DATABASE_URL: invalid url: "not-a-url"
+  ✗ PORT: invalid port: "80"
+  ✗ DEBUG: invalid boolean: "maybe"
+  ✗ API_KEY: required but missing
 
-```js
-const {
-  parseEnvFile, parseSchema, validate, diff,
-  generateSchema, detectType, detectSecrets, looksLikeSecret,
-  validateValue, maskValue, parseDurationMs, isGitIgnored,
-} = require('@v0idd0/envguard/src/validator');
-
-const envVars = parseEnvFile('.env');
-const schema  = parseSchema('.env.schema');
-const result  = validate(envVars, schema);
-
-if (!result.valid) {
-  console.error('bad env:', result.errors);
-  process.exit(1);
-}
-
-// Custom validators
-validateValue('15m', 'duration');                       // true
-validateValue('50', 'integer', { min: 1, max: 100 });   // true
-validateValue('prod', 'enum', { values: ['dev', 'prod'] }); // true
-
-// Secret scan
-detectSecrets(envVars);        // [{ key, reason, length }, ...]
-isGitIgnored('.env');          // true / false / null
+✗ failed. 4 error(s).
 ```
+
+With this valid `.env` (all values are made up) and a `.gitignore` that lists `.env`, the check passes and the scan reports the key by name only:
+
+```text
+DATABASE_URL=postgres://demo:demo@localhost:5432/app
+PORT=8080
+DEBUG=false
+LOG_LEVEL=info
+API_KEY=demo-key-0123456789abcdef
+```
+
+```console
+$ envguard check
+checking .env against .env.schema
+
+✓ valid. 5 variables checked.
+
+$ envguard scan
+scanning .env
+
+  ✓ .env is in .gitignore
+
+  likely secrets (1):
+    ⚠ API_KEY  (key-name, len=25)
+```
+
+## Usage
+
+```text
+envguard v2.0.5
+validate .env files against a schema
+
+Usage:
+  envguard [command] [options]
+
+Commands:
+  check, c        Validate .env against schema (default)
+  diff, d         Compare two .env files
+  init, i         Generate schema from existing .env
+  list, l         List variables in .env
+  scan, s         Secret-leak scan (is .env git-ignored? any bare secrets?)
+
+Options:
+  -e, --env <path>      Path to .env file (default: .env)
+  -s, --schema <path>   Path to schema file (default: .env.schema)
+  -o, --output <path>   Output file (for init / diff)
+  --strict              Fail on extra variables not in schema
+  --quiet               Only output errors
+  --json                Emit JSON envelope (for CI)
+  --mask-secrets        Redact likely-secret values in output
+  --fail-if-leaked      Exit 2 if .env is not git-ignored
+  -h, --help            Show this help
+  --version             Show version
+
+Schema format (.env.schema):
+  # Required
+  DATABASE_URL=url
+  PORT=port:min=1024,max=65535
+  DEBUG=boolean
+  LOG_LEVEL=enum(debug|info|warn|error):info
+  NODE_ENV=enum(development|staging|production)
+  API_KEY=secret:min=32
+  SESSION_TIMEOUT=duration            # e.g. 15m, 1h, 2d
+  ALLOW_LIST=json                     # must parse as JSON
+  USER_ID=uuid
+  APP_VERSION=semver
+  BIND_IP=ip
+  DATA_DIR=dir                        # directory must exist
+  CONFIG_FILE?=file                   # optional file
+  TRACE_ID=regex:/^[a-z0-9]{16}$/
+
+  Types: string, number, integer, boolean, url, email, port,
+         ip, ipv4, ipv6, uuid, semver, duration, json,
+         path, dir, file, regex, enum, hex, secret.
+
+Examples:
+  envguard                              # check .env vs .env.schema
+  envguard check -e .env.local          # specific env file
+  envguard check --json | jq .valid     # CI-friendly
+  envguard diff .env .env.prod          # compare two env files
+  envguard init -e .env -o .env.schema  # auto-generate schema
+  envguard scan --fail-if-leaked        # pre-commit gate
+  envguard list --mask-secrets          # list with secrets redacted
+
+Docs and issues: https://github.com/voidd0/envguard
+```
+
+## Notes
+
+Exit codes: 0 when everything is valid, 1 on validation errors, 2 for `--fail-if-leaked` when .env is not git-ignored.
 
 ## License
 
-MIT © [vøiddo](https://voiddo.com), no asterisks.
-
-## Links
-
-- Docs: https://tools.voiddo.com/envguard/?ref=envguard-docs-readme
-- Source: https://github.com/voidd0/envguard
-- npm: https://npmjs.com/package/@v0idd0/envguard
-- Studio: https://voiddo.com/?ref=envguard-studio-readme
-- Issues: https://github.com/voidd0/envguard/issues
-- Support: support@voiddo.com
+MIT, see [LICENSE](LICENSE).
 
 ---
 
-Maintained by v0idd0.
+Made by [vøiddo](https://voiddo.com/?src=gh). More command line tools: [voiddo.com/packages](https://voiddo.com/packages/?src=gh).
+We also run data scrapers for job boards, shops and ad libraries: [voiddo.com/scrapers](https://voiddo.com/scrapers/?src=gh).

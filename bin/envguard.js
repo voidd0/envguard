@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-// envguard — .env validator, schema generator, secret scanner. Free forever from vøiddo.
-// https://voiddo.com/tools/envguard/
 
 const fs = require('fs');
 const path = require('path');
@@ -14,22 +12,22 @@ const {
   isGitIgnored,
   maskValue,
 } = require('../src/validator');
-const { maybeShowPromo, getHelpFooter } = require('../src/promo');
 
 const pkg = require('../package.json');
 const args = process.argv.slice(2);
 
-const YELLOW = '\x1b[33m';
-const CYAN = '\x1b[36m';
-const GREEN = '\x1b[32m';
-const RED = '\x1b[31m';
-const DIM = '\x1b[2m';
-const RESET = '\x1b[0m';
+const COLOR = !process.env.NO_COLOR && process.stdout.isTTY;
+const YELLOW = COLOR ? '\x1b[33m' : '';
+const CYAN = COLOR ? '\x1b[36m' : '';
+const GREEN = COLOR ? '\x1b[32m' : '';
+const RED = COLOR ? '\x1b[31m' : '';
+const DIM = COLOR ? '\x1b[2m' : '';
+const RESET = COLOR ? '\x1b[0m' : '';
 
 function printHelp() {
   console.log(`
 ${YELLOW}envguard${RESET} ${DIM}v${pkg.version}${RESET}
-${DIM}validate .env files against a schema — free forever from vøiddo${RESET}
+${DIM}validate .env files against a schema${RESET}
 
 ${CYAN}Usage:${RESET}
   envguard [command] [options]
@@ -83,7 +81,7 @@ ${CYAN}Examples:${RESET}
   envguard scan --fail-if-leaked        ${DIM}# pre-commit gate${RESET}
   envguard list --mask-secrets          ${DIM}# list with secrets redacted${RESET}
 
-${DIM}docs: https://voiddo.com/tools/envguard/${RESET}${getHelpFooter()}
+${DIM}Docs and issues: https://github.com/voidd0/envguard${RESET}
 `);
 }
 
@@ -393,7 +391,6 @@ function main() {
       code = 1;
   }
 
-  maybeShowPromo();
   return code;
 }
 

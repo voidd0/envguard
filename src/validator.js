@@ -1,4 +1,3 @@
-// envguard — .env validator. Free forever from vøiddo. https://voiddo.com/tools/envguard/
 
 const fs = require('fs');
 const path = require('path');
@@ -324,7 +323,6 @@ function detectType(value) {
 function generateSchema(envVars, options = {}) {
   const lines = [
     '# Generated schema for envguard',
-    '# https://voiddo.com/tools/envguard/',
     '',
   ];
 

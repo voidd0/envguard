@@ -1,7 +1,7 @@
 {
   "name": "@v0idd0/envguard",
-  "version": "2.0.4",
-  "description": "Validate a .env file against a schema with 21 types and min and max constraints, scan for leaked secrets and check .gitignore. Works in pre-commit hooks and CI.",
+  "version": "2.0.5",
+  "description": "Validate a .env file against a typed schema with 21 types, scan for leaked secrets and check that .env is git-ignored. Fits pre-commit hooks and CI.",
   "main": "src/validator.js",
   "bin": {
     "envguard": "./bin/envguard.js"
@@ -17,37 +17,30 @@
     "env-schema",
     "secret-scanner",
     "config-validation",
-    "secrets",
     "pre-commit",
     "ci",
-    "cli",
-    "typed"
+    "cli"
   ],
   "author": "vøiddo <support@voiddo.com> (https://voiddo.com)",
   "license": "MIT",
-  "homepage": "https://tools.voiddo.com/envguard/",
+  "homepage": "https://voiddo.com/packages/#envguard",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/voidd0/envguard.git"
   },
   "bugs": {
-    "url": "https://github.com/voidd0/envguard/issues",
-    "email": "support@voiddo.com"
+    "url": "https://github.com/voidd0/envguard/issues"
   },
   "publishConfig": {
     "access": "public"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "files": [
     "bin",
     "src",
     "README.md",
     "LICENSE"
-  ],
-  "funding": {
-    "type": "individual",
-    "url": "https://voiddo.com/contact/"
-  }
+  ]
 }
